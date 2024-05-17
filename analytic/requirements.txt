@@ -2,3 +2,6 @@ psycopg2
 pandas
 matplotlib
 pytest
+
+# Due some issues with my old OS, set old version to avoid any compatibility issues with code.
+sqlalchemy==1.3.23

@@ -1,11 +1,14 @@
 version: '2'
+
 services:
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:14-alpine'
     restart: always
     volumes:
       - './postgres_data:/var/lib/postgresl/data'
     environment:
       - POSTGRES_PASSWORD=${secure_pass_here}
+      - POSTGRES_USER=${postgres_user}
+      - POSTGRES_DB=${postgres_db}
     ports:
       - 5432:5432
