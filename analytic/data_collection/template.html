@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .content {
+                background-color: #003A40;
+            }
+            .navi {
+                background-color: #003A40;
+                padding-left: 7px;
+                padding-top: 7px;
+            }
+            h3 {
+                color: #fff;
+                font-size: 23px;
+            }
+            p {
+                color: #fff;
+                font-size: 17px;
+            }
+            b {
+                color: #F81105;
+                font-size: 19;
+            }
+            img {
+                display: block;
+            }
+            .histogram {
+                padding: 10px;
+                padding-left: 10%;
+                width: 75%;
+                height: 350;
+            }
+            .summary {
+                padding-left: 79px;
+                padding-bottom: 73px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="navi">
+            <img src="cid:{{ logo }}" width="80" height="40">
+        </div>
+        <div class="content">
+            <div class="histogram">
+                HISTOGRAM
+            </div>
+            <div class="summary">
+                <h3>Summary account details:</h3>
+                <p>Total balance is <b>TOTAL_BALANCE</b></p>
+                <p>Average credit amount <b>CREDIT_AMOUNT</b></p>
+                <p>Average debit amount <b>DEBIT_AMOUNT</b></p>
+                MONTHS_P
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+FROM python:latest
+LABEL Maintainer="Josh"
+
+WORKDIR /usr/app/src
+
+# Update pip.
+RUN pip install --upgrade pip
+
+# Install required packages.
+COPY ../requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+# Add the remote files at root directory.
+COPY ../analytic ./
+
+# Ececute command.
+CMD ["python", "./analytic/generate_data.py"]
+
+# docker image build -t python:0.0.1 /home/path...
+# docker images
+# docker run python:0.0.1
