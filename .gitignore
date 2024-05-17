@@ -11,7 +11,7 @@ __pycache__/
 **/*.png
 !**/*.png
 
-super_secre_dir
+super_secret_dir
 
 # Distribution / packaging
 .Python
@@ -79,3 +79,5 @@ __pypackages__/
 .env
 .venv
 .analytics
+
+.idea
