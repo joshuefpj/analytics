@@ -11,6 +11,8 @@ __pycache__/
 **/*.png
 !**/*.png
 
+super_secre_dir
+
 # Distribution / packaging
 .Python
 build/
