@@ -12,13 +12,13 @@ con = Connection()
 db_conn_str = con.connection_str
 load_dotenv(find_dotenv())
 
-SECRET_KEY = getenv('SECRET_KEY')
-DB_USER = getenv('DB_USER')
-DB_PASS = getenv('DB_PASSWORD')
-DB_NAME = getenv('DB_NAME')
-DB_SERVICE = getenv('_SERVICE')
-DB_PORT = getenv('DB_PORT')
-DP_IP = getenv('DB_IP')
+# SECRET_KEY = getenv('SECRET_KEY')
+# DB_USER = getenv('DB_USER')
+# DB_PASS = getenv('DB_PASSWORD')
+# DB_NAME = getenv('DB_NAME')
+# DB_SERVICE = getenv('_SERVICE')
+# DB_PORT = getenv('DB_PORT')
+# DP_IP = getenv('DB_IP')
 
 
 def _connect_db():

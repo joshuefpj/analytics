@@ -1,9 +1,9 @@
 from os import environ
 
-db_user = environ.get('POSTGRES_USER', 'higuinho')
-db_pass = environ.get('POSTGRES_PASSWORD', 'new_secret_phrase')
-db_name = environ.get('POSTGRES_DB', 'transactions')
-container = environ.get('POSTGRES_HOS', '172.21.0.2')
+db_user = environ.get('POSTGRES_USER')
+db_pass = environ.get('POSTGRES_PASSWORD')
+db_name = environ.get('POSTGRES_DB')
+container = environ.get('POSTGRES_HOS')
 # psql -h 172.21.0.2 -p 5432 -U higuinho -d transactions
 
 
