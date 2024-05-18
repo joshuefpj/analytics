@@ -1,59 +1,23 @@
-from psycopg2 import connect, sql
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+from os import environ
+
+db_user = environ.get('POSTGRES_USER', 'higuinho')
+db_pass = environ.get('POSTGRES_PASSWORD', 'new_secret_phrase')
+db_name = environ.get('POSTGRES_DB', 'transactions')
+container = environ.get('POSTGRES_HOS', '172.21.0.2')
+# psql -h 172.21.0.2 -p 5432 -U higuinho -d transactions
 
 
 class Connection:
-    def __init__(self, host, port, database_name, user, password):
-        self.host = host
-        self.port = port
-        self.dbname = database_name
-        self.user_name = user
-        self.password = password
-    
-    def con(self):
-        connection = connect(
-            dbname=self.dbname,
-            user=self.user_name,
-            host=self.host,
-            password=self.password,
+    def __init__(self):
+        self.host = container
+        self.port = 5432
+        self.dbname = db_name
+        self.user_name = db_user
+        self.password = db_pass
+        self.connection_str = 'postgresql+psycopg2://{}:{}@{}:{}/{}'.format(
+            self.user_name,
+            self.password,
+            self.host,
+            self.port,
+            self.dbname,
         )
-
-        connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-
-        return connection
-    
-    def create_tables(self):
-        c = self.con()
-
-        with c.cursor() as cur:
-            sql = """"
-            CREATE TABLE account_details (
-                account VARCHAR(255) NOT NULL,
-                first_name VARCHAR(79) NOT NULL,
-                last_name VARCHAR(79),
-                email VARCHAR(255) NOT NULL,
-                PRIMARY KEY (account)
-            )
-            """
-
-            cur.execute(sql)
-
-        with c.cursor() as cur:
-            sql = """"
-            CREATE TABLE transaction_logging (
-                id serial, num integer, data varchar,
-                log_date TIMESTAMP,
-                account VARCHAR(255),
-                debit FLOAT,
-                credit FLOAT,
-                transactions_count INT,
-                PRIMARY KEY (id),
-                FOREIGN KEY (account) REFERENCES account_details(account)
-            )
-            """
-
-            cur.execute(sql)
-    
-    def get_transactions_by_account(self, account):
-        # TODO: implement method to retrieve information for an account.
-        pass

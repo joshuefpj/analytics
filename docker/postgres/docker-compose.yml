@@ -1,14 +1,21 @@
 version: '2'
 
 services:
-  postgres:
-    image: 'postgres:14-alpine'
+  db:
+    image: 'postgres:13.4-alpine'
     restart: always
+    expose:
+      - 5432
+    container_name: postgres_db_transactions
     volumes:
-      - './postgres_data:/var/lib/postgresl/data'
+      - ./postgres_data:/var/lib/postgresl/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_PASSWORD=${secure_pass_here}
       - POSTGRES_USER=${postgres_user}
       - POSTGRES_DB=${postgres_db}
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST_NAME=postgres_db_transactions
     ports:
       - 5432:5432
