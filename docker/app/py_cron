@@ -1,0 +1,1 @@
+*/30 * * * * python /usr/app/analytic/main.py >> /usr/app/analytic/logs/logfile_`date "+%Y%m%d_%H%M%S"`.log

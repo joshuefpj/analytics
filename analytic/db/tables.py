@@ -16,7 +16,7 @@ class AccountDetails(BaseClass):
 
 
 class TransactionLog(BaseClass):
-    __tablename__ = 'transaction_logging'
+    __tablename__ = 'transaction_logs'
     id = Column(Integer, primary_key=True, nullable=False)
     log_date = Column(DateTime, default=datetime.now)
     account = Column(

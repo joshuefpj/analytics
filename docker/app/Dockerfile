@@ -14,9 +14,7 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 # Add the remote files at root directory.
 COPY ../analytic ./
 
-# Ececute command.
-CMD ["python3", "./analytic/generate_data.py"]
+# Schedule script.
+RUN crontab crontab
 
-# docker image build -t python:0.0.1 /home/path...
-# docker images
-# docker run python:0.0.1
+CMD ["crond", "-f"]

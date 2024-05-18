@@ -6,7 +6,7 @@ CREATE TABLE account_details (
     PRIMARY KEY (account)
 );
 
-CREATE TABLE transaction_logging (
+CREATE TABLE transaction_logs (
     id serial, num integer, data varchar,
     log_date TIMESTAMP,
     account VARCHAR(255),

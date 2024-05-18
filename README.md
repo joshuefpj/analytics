@@ -30,6 +30,14 @@ Once we have the list `generate_details()` function will process each file indiv
 After processing the details, `send_email()` function will structure and send an email for each account in the list,
 
 ## Database.
+Tables stored in a Postgres Database.
+
+Only 2 tables are used:
+
+    - account_details
+        Will be used to store information about account, including ID (7 character code)
+    - transaction_logging
+        Will contain a row for each run containing information for the particular account like account ID, credit and debit amoun and date run.
 
 ## Versioning
 ### Vesion 0.1.0
@@ -38,3 +46,10 @@ This 0.1.0 version needs a directory where we need to store our credentials for 
 Will update this behaviour to take data from environment variables for Docker.
 
 Additionally, this 0.1.0 version isn't attaching correctly the images on email, they appears like attachments instead of be part of the email.
+
+### Version 0.1.1
+This 0.1.1 version adds SQLalchemy to communicate with database, adds functions to interact with tables.
+
+Database and table creation added into Dockerfile to be created once container is created.
+
+Adds scheduled cron to get python script run every 30 mins.
