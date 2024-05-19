@@ -49,7 +49,7 @@ Now we can connect to the containers using below commands:
 
     - To connect into database, you need to introduce the password defined in `postgres_pass`
 
-        psql -U $postgres_user -h postgres_db_transactions -p 5432 -d postgres_db
+        psql -U $postgres_user -h 172.21.0.2 -p 5432 -d $postgres_db
 
     - To connect into our linux container so we can monitor the jobs and check logs
 

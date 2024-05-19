@@ -25,4 +25,4 @@ class TransactionLog(BaseClass):
     )
     debit = Column(Float, nullable=False)
     credit = Column(Float, nullable=False)
-    transactions_count = Column(Float, nullable=False)
+    transactions_count = Column(Integer, nullable=False)

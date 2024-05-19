@@ -1,9 +1,9 @@
 from os import environ
 
-db_user = environ.get('POSTGRES_USER', 'higuinho')
-db_pass = environ.get('POSTGRES_PASSWORD', '')
-db_name = environ.get('POSTGRES_DB', 'transactios')
-container = environ.get('POSTGRES_HOS', '172.19.0.2')
+db_user = environ.get('POSTGRES_USER')
+db_pass = environ.get('POSTGRES_PASSWORD')
+db_name = environ.get('POSTGRES_DB')
+container = environ.get('POSTGRES_HOS')
 
 
 class Connection:

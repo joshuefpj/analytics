@@ -1,13 +1,16 @@
-from calendar import month_name
 from os import environ
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from pathlib import Path
+from random import choice
 import smtplib, ssl
 
-from pathlib import Path
+from logging_analytic import Logging
 
 from utils import read_file
+from db.fresh_db import get_email_by_account, insert_row_orm
+from db.tables import AccountDetails, TransactionLog
 
 base_dir = Path(__file__).parents[0]
 template_file = base_dir / 'data_collection' / 'template.html'
@@ -54,9 +57,7 @@ def get_months_details(months: dict) -> str:
 
     months_paragraphs = ''
     for k, v in months.items():
-        months_paragraphs += base_p.format(
-            month_name[int(k)], v
-        )
+        months_paragraphs += base_p.format(k, v)
 
     return months_paragraphs
 
@@ -102,7 +103,25 @@ def send_email(account, receipt, details):
     sender_email = environ.get('sender_email', '13.phakman@gmail.com')
     i_key = environ.get('gmail_key', 'uandrpwyzzmwvelt')
     img_logo = get_image('stori_logo')
+    Logging(f'New account "{account}", adding to DB.').info()
     account_stats = get_image(account)
+    account_email = get_email_by_account(account)
+    if account_email:
+        receipt = ','.join([receipt, account_email])
+    else:
+        Logging(f'New account "{account}", adding to DB.').info()
+        insert_row_orm(AccountDetails, details['account_db'])
+
+    trx_count = sum(details['MONTH_TRX'].values())
+
+    trx_details = {
+        'account': account,
+        'credit': details['CREDIT_AMOUNT'],
+        'debit': details['DEBIT_AMOUNT'],
+        'transactions_count': int(trx_count),
+    }
+    Logging(f'Add trx for account {account} - BALANCE.').info()
+    insert_row_orm(TransactionLog, trx_details)
 
     subject = f'Summary details for account {account}.'
 
@@ -152,10 +171,12 @@ def send_email(account, receipt, details):
     if msgLogo:
         message.attach(msgLogo)
     if msgStats:
+        Logging('Attached statistics graphic.').info()
         message.attach(msgStats)
 
     # Connection to server
     context = ssl.create_default_context()
+    Logging('Sending email in html format.').info()
     with smtplib.SMTP('smtp.gmail.com', 587) as smtp_server:
         smtp_server.starttls()
         smtp_server.login(sender_email, i_key)
@@ -165,10 +186,14 @@ def send_email(account, receipt, details):
 
 
 if __name__ == '__main__':
+    names = 'mario luigui koppa harry leonardo leah miguilangel rafael donatello'.split()
+    last_name = 'bros turtle peach solo skywalker'.split()
     sender = 'd10z.kk@gmail.com'
-    acc = '1Q0UTOL'
+    acc = 'PKZKL0L'
     a = 4902.42
     b = -3992.23
+    n = choice(names)
+    l = choice(last_name)
     d = {
         'TOTAL_BALANCE': a + b,
         'CREDIT_AMOUNT': a / 491,
@@ -180,6 +205,11 @@ if __name__ == '__main__':
             '8': 265,
             '9': 275
         },
+        'account_db': {
+            'account': acc,
+            'email': f'{l.capitalize()}.{n.capitalize()}@noexisto.com',
+            'first_name': n,
+            'last_name': l,
+        }
     }
-    print(sender)
     send_email(acc, sender, d)

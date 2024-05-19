@@ -22,7 +22,7 @@ def _generate_data(user_id: str, rows: int) -> None:
     filename = data_dir / f'{user_id}.csv'
 
     idx = [x for x in range(rows)]
-    date_t = [f'{randint(5, 9)}/{randint(1, 30):02}' for _ in range(rows)]
+    date_t = [f'{randint(1, 12)}/{randint(1, 30):02}' for _ in range(rows)]
     trx = [randint(3000, 100000) / 100 for _ in range(rows)]
 
     trx = [x * -1 if bool(randint(0, 1)) else x for x in trx]

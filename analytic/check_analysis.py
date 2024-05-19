@@ -29,8 +29,8 @@ def get_plot(credit: pd.DataFrame, debit: pd.DataFrame, account: str) -> None:
     """
     filename = img_dir / f'{account}.png'
 
-    values = [''] + [month_name[x] for x in range(1, 13)
-                     if x in credit['month'].unique() or x in debit['month'].unique()]
+    values = [month_name[x] for x in range(1, 13)]
+    #                  if x in credit['month'].unique() or x in debit['month'].unique()]
     plt.rcParams['axes.edgecolor'] = '#fff'
     fig, ax = plt.subplots(figsize=(8,4))
 
@@ -46,6 +46,7 @@ def get_plot(credit: pd.DataFrame, debit: pd.DataFrame, account: str) -> None:
     ax.set_xlabel(' Transaction Date', color='#fff')
     ax.set_ylabel('Amount', color='#fff')
     ax.set_title('Credit/Debit', color='#fff')
+    ax.xaxis.set_ticks([x for x in range(1, 13)])
     ax.xaxis.set_ticklabels(values, color='#fff')
     ax.tick_params(axis='y', colors='#fff')
     ax.yaxis.set_ticks_position('left')
@@ -114,7 +115,7 @@ def get_last_run(file_time: float) -> bool:
     previous_run = datetime.now().timestamp()
     previous_run -= 1800
 
-    return previous_run.timestamp() < file_time
+    return previous_run < file_time
 
 
 def get_data(account_file: str) -> pd.DataFrame:
@@ -186,7 +187,7 @@ def generate_details(raw_data: pd.DataFrame, account: str) -> dict:
 if __name__ == '__main__':
     # account_files = file_list()
     # print(account_files)
-    acc = 'BD06NDL'
+    acc = 'BV1AYJN'
     d = get_data(acc)
     # print(d)
 

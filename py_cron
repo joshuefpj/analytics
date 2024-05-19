@@ -1,1 +1,1 @@
-*/30 * * * * python3 /usr/app/analytic/main.py >> /usr/app/analytic/logs/logfile_`date "+%Y%m%d_%H%M%S"`.log
+*/5 * * * * python3 /usr/app/analytic/main.py > /usr/app/analytic/logs/logfile_`date "+%Y%m%d_%H%M%S"`.log 2>&1

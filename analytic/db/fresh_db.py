@@ -1,11 +1,14 @@
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
-from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError, DataError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-
-from conn import Connection
-from tables import AccountDetails, TransactionLog
+try:
+    from logging_analytic import Logging
+except ModuleNotFoundError:
+    from ..logging_analytic import Logging
+from .conn import Connection
+from .tables import AccountDetails, TransactionLog
 
 con = Connection()
 db_conn_str = con.connection_str
@@ -37,14 +40,11 @@ def gen_session() -> Session:
     return session
 
 
-def validate_account(session: Session, account: str) -> bool:
+def validate_account(account: str) -> bool:
     """Validates whether the account id already exists or not.
 
     Parameters
     ----------
-        session:
-            The session to be used for DB connect.
-
         account:
             The unique identifier for the account.
 
@@ -55,17 +55,18 @@ def validate_account(session: Session, account: str) -> bool:
     if not isinstance(account, str):
         return
 
-    email = get_email_by_account(session, account)
+    email = get_email_by_account(account)
     return bool(email)
 
 
-def get_email_by_account(session: Session, account: str) -> str:
+def get_email_by_account(account: str) -> str:
     """Retrieve the email for a particular account from DB.
 
     Returns
     -------
         Retrieve the engine for DB connection.
     """
+    session = gen_session()
     if not isinstance(account, str):
         return
 
@@ -76,11 +77,10 @@ def get_email_by_account(session: Session, account: str) -> str:
     try:
         return email[0].email
     except IndexError as e:
-        print('Account does not exist:', e)
+        Logging(f'Account does not exist: {account} {e}').warning()
         return 0
 
 def insert_row_orm(
-        session: Session,
         table_structure,
         details: dict
     ) -> None:
@@ -88,24 +88,24 @@ def insert_row_orm(
 
     Parameters
     ----------
-        session:
-            The Session DB object.
-
         table_structure:
             The table definition to be used.
 
         details:
             The data mapping for to be inserted into the table.
     """
+    session = gen_session()
     dt = table_structure(**details)
 
     try:
         session.add(dt)
         session.commit()
 
-    except InvalidRequestError:
-        print('Identifier already exists.', details)
+    except InvalidRequestError as ex:
+        Logging(f'Identifier already exists: {details}').warning()
         return False
+    except DataError as ex:
+        Logging(f'Incorrect data: {ex}').warning()
 
 
 if __name__ == '__main__':
@@ -116,10 +116,18 @@ if __name__ == '__main__':
         'last_name': 'dos',
     }
 
-    s = gen_session()
-    insert_row_orm(s, AccountDetails, dd)
-    e = get_email_by_account(s, dd['account'])
+    trx_row = {
+        'log_date': datetime(2024, 5, 19, 0, 48, 2, 66505),
+        'account': 'MBCBLOS',
+        'debit': -532.9149066666666,
+        'credit': 508.93440874035986,
+        'transactions_count': 1528,
+    }
 
-    for a in ['AG133EI0', 'afl', '']:
-        a_response = validate_account(s, a)
-        print(f'{a}: {a_response}')
+    s = gen_session()
+    insert_row_orm(TransactionLog, trx_row)
+    # e = get_email_by_account(s, dd['account'])
+
+    for a in ['MBCBLOS', 'AG133EI0', 'afl', '']:
+        a_response = validate_account(a)
+        Logging(f'{a}: {a_response}').info()
