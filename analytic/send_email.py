@@ -13,7 +13,7 @@ from db.fresh_db import get_email_by_account, insert_row_orm
 from db.tables import AccountDetails, TransactionLog
 
 base_dir = Path(__file__).parents[0]
-template_file = base_dir / 'data_collection' / 'template.html'
+template_file = base_dir / 'base_files' / 'template.html'
 images_dir = base_dir / 'statistic_images'
 
 
@@ -62,7 +62,7 @@ def get_months_details(months: dict) -> str:
     return months_paragraphs
 
 
-def get_image(name) -> bytes:
+def get_image(name: str, file_path: Path=None) -> bytes:
     """Retrieves the bytes from the file with the image.
 
     Parameters
@@ -71,11 +71,16 @@ def get_image(name) -> bytes:
             The name for the specific file, without extension(png by
             default).
 
+        file_path:
+            [Optional] set specific path for the file.
+
     Returns
     -------
 
     """
-    file = images_dir / f'{name}.png'
+    if not file_path:
+        file_path = images_dir
+    file = file_path / f'{name}.png'
 
     if file.exists() and file.is_file():
         with open(file, 'rb') as fl:
@@ -100,9 +105,11 @@ def send_email(account, receipt, details):
         details:
             The key-value map containing the details account.
     """
-    sender_email = environ.get('sender_email', '13.phakman@gmail.com')
-    i_key = environ.get('gmail_key', 'uandrpwyzzmwvelt')
-    img_logo = get_image('stori_logo')
+    # Setting up account.
+    sender_email = environ.get('sender_email')
+    i_key = environ.get('gmail_secret')
+
+    img_logo = get_image('stori_logo', base_dir / 'base_files')
     Logging(f'New account "{account}", adding to DB.').info()
     account_stats = get_image(account)
     account_email = get_email_by_account(account)

@@ -1,9 +1,9 @@
 from os import environ
 
-db_user = environ.get('POSTGRES_USER')
-db_pass = environ.get('POSTGRES_PASSWORD')
-db_name = environ.get('POSTGRES_DB')
-container = environ.get('POSTGRES_HOST')
+db_user = environ.get('postgres_user')
+db_pass = environ.get('postgres_pass')
+db_name = environ.get('postgres_db')
+container = environ.get('postgres_host')
 
 
 class Connection:

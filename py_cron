@@ -1,1 +1,5 @@
-*/5 * * * * python3 /usr/app/analytic/main.py > /usr/app/analytic/logs/logfile_`date "+%Y%m%d_%H%M%S"`.log 2>&1
+# RUN python script every 5 minutes.
+*/5 * * * * python3 /usr/app/analytic/main.py > /usr/app/analytic/logs/log_transactions_`date "+%Y%m%d_%H%M%S"`.log 2>&1
+# Cleanup log files.
+*/5 * * * * find /usr/app/analytic/logs -mmin +25 -type f -name *.log | xargs rm -f {} \;
+*/5 * * * * find /usr/app/analytic/data_collection -mmin +25 -type f -name *.png | xargs rm -f {} \;

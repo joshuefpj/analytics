@@ -94,7 +94,7 @@ Adds scheduled cron to get python script run every 30 mins.
 ### Version 0.1.5
 This 0.1.5 fix the image attachment on the email template.
 
-Adds logging messages for tracking purposes for each run.
+Adds logging messages for tracking purposes for each run. Beside the fact there is already a library for this, decided to create one tiny personal option.
 
 Both containers now are created with docker-compose, cron is added to crontab, is set to run every 30 mins.
 
@@ -102,3 +102,11 @@ Main file is now working as expected, the validation for the file located is now
 
 Accounts are now saved into database into `account_details`, validation to keep account unique.
 Transactions are added into `transactions_logging` table.
+
+### Version 1.0.0
+Remove hardcoded variable values.
+
+Update cron command. Still facing issues, isn't picked up by cron.
+We can get the command from `crontab -\` command in the container and run it manually.
+
+Added missing env variable `postgres_host`.

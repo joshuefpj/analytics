@@ -29,6 +29,7 @@ services:
         "postgres_pass=${postgres_pass}",
         "postgres_user=${postgres_user}",
         "postgres_db=${postgres_db}",
+        "postgres_host=${postgres_host}",
         "sender_email=${sender_email}",
         "gmail_secret=${gmail_secret}"
       ]

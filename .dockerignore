@@ -1,0 +1,8 @@
+# Readme files
+analytic/*.md
+
+# Ignore stats images and data files.
+analytic/logs/*.logs
+analytic/data_collection/*.csv
+analytic/statistic_images/*.png
+analytic/super_secret_dir
