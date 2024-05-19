@@ -1,8 +1,0 @@
-
-api:
-    platform: linux/amd64
-    depends_on:
-        - db
-    biuld:
-        context: ./
-        dockerfile: ./Dockerfile

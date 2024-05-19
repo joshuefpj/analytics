@@ -53,7 +53,7 @@ Now we can connect to the containers using below commands:
 
     - To connect into our linux container so we can monitor the jobs and check logs
 
-        docker container exec -it <container>
+        docker container exec -it <container> /bin/bash
 
 ## Main app.
 Here we store the main logic of our application.

@@ -9,7 +9,7 @@ __pycache__/
 
 # PNG files*
 **/*.png
-!**/*.png
+!**/stori_logo.png
 
 super_secret_dir
 

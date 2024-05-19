@@ -11,8 +11,6 @@ def test_get_keys():
 
     # Act.
     result_dict = get_keys('test_data')
-    print(result_dict)
-    print(expected_dict)
 
     # Assert.
     assert expected_dict == result_dict

@@ -17,6 +17,10 @@ RUN echo "PG USER is $postgres_user"
 
 RUN apt-get update
 RUN apt-get install python3 python3-pip libpq-dev python-dev cron -y
+
+# Install psql
+RUN apt install -y postgresql
+
 RUN pip3 install --upgrade pip
 
 WORKDIR /usr/app

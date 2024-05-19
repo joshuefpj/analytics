@@ -12,10 +12,24 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
-      - POSTGRES_PASSWORD=${secure_pass_here}
+      - POSTGRES_PASSWORD=${postgres_pass}
       - POSTGRES_USER=${postgres_user}
       - POSTGRES_DB=${postgres_db}
       - POSTGRES_PORT=5432
       - POSTGRES_HOST_NAME=postgres_db_transactions
     ports:
       - 5432:5432
+
+  py-challenge:
+    depends_on:
+        - db
+    build:
+      context: .
+      args: [
+        "postgres_pass=${postgres_pass}",
+        "postgres_user=${postgres_user}",
+        "postgres_db=${postgres_db}",
+        "sender_email=${sender_email}",
+        "gmail_secret=${gmail_secret}"
+      ]
+      dockerfile: ./Dockerfile

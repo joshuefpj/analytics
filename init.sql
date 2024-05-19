@@ -1,5 +1,5 @@
 CREATE TABLE account_details (
-    account VARCHAR(255) NOT NULL,
+    account VARCHAR(7) NOT NULL,
     first_name VARCHAR(79) NOT NULL,
     last_name VARCHAR(79),
     email VARCHAR(255) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE account_details (
 CREATE TABLE transaction_logs (
     id serial, num integer, data varchar,
     log_date TIMESTAMP,
-    account VARCHAR(255),
+    account VARCHAR(7),
     debit FLOAT,
     credit FLOAT,
     transactions_count INT,
