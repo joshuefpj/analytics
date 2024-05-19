@@ -11,6 +11,9 @@ __pycache__/
 **/*.png
 !**/stori_logo.png
 
+# IN LOCAL DEV
+analytic/db/conn.py
+
 super_secret_dir
 CHEAT_SHEET.MD
 

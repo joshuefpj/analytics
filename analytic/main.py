@@ -7,7 +7,9 @@ sys.path.insert(0, os.path.abspath(str(project_path)))
 
 from db.fresh_db import get_email_by_account, insert_row_orm
 from db.tables import AccountDetails, TransactionLog
-from check_analysis import get_data, generate_details, file_list
+from check_analysis import (
+    get_data, generate_details, file_list
+)
 from generate_data import generate_data
 from logging_analytic import Logging
 from send_email import send_email
@@ -42,6 +44,7 @@ for acc in account_files[:1]:
     l = choice(last_name)
 
     Logging(f'ACCOUNT: {acc}').info()
+
     d = get_data(acc)
 
     # Process data.

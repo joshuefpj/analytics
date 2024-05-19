@@ -1,11 +1,14 @@
 from calendar import month_name
 from datetime import datetime, timedelta
+from pathlib import Path
 from os import listdir
 from os.path import getmtime, isfile, join
+
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 import pandas as pd
-from pathlib import Path
+
+from logging_analytic import Logging
 
 base_dir = Path(__file__).parents[0]
 img_dir = base_dir / 'statistic_images'
@@ -80,8 +83,11 @@ def file_list() -> list:
     results = []
     for k in files_available:
         file_mod = getmtime(f'{path_base}/{k}')
+        # Check if file was modified since last run.
         if get_last_run(file_mod) and k.endswith('.csv'):
             results.append(k.split('.')[0])
+        else:
+            Logging(f'{k} account has any new transactions to report.').info()
     
     return results
 

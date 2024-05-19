@@ -3,7 +3,7 @@ from os import environ
 db_user = environ.get('POSTGRES_USER')
 db_pass = environ.get('POSTGRES_PASSWORD')
 db_name = environ.get('POSTGRES_DB')
-container = environ.get('POSTGRES_HOS')
+container = environ.get('POSTGRES_HOST')
 
 
 class Connection:

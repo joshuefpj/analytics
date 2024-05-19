@@ -18,9 +18,6 @@ ENV gmail_secret ${gmail_secret}
 RUN apt-get update
 RUN apt-get install python3 python3-pip libpq-dev python-dev cron -y
 
-# Install psql
-# RUN apt-get install -y postgresql
-
 RUN pip3 install --upgrade pip
 
 WORKDIR /usr/app
