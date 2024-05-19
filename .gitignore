@@ -12,6 +12,7 @@ __pycache__/
 !**/stori_logo.png
 
 super_secret_dir
+CHEAT_SHEET.MD
 
 # Distribution / packaging
 .Python

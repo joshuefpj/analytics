@@ -66,7 +66,7 @@ def get_plot(credit: pd.DataFrame, debit: pd.DataFrame, account: str) -> None:
     )
 
 
-def file_list() -> list[str]:
+def file_list() -> list:
     """Check for files in `path_base` location.
 
     Returns

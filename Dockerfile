@@ -7,19 +7,19 @@ ARG postgres_db
 ARG sender_email
 ARG gmail_secret
 
+# ARG DEBIAN_FRONTEND=noninteractive
+
 ENV postgres_pass ${postgres_pass}
 ENV postgres_user ${postgres_user}
 ENV postgres_db ${postgres_db}
 ENV sender_email ${sender_email}
 ENV gmail_secret ${gmail_secret}
 
-RUN echo "PG USER is $postgres_user"
-
 RUN apt-get update
 RUN apt-get install python3 python3-pip libpq-dev python-dev cron -y
 
 # Install psql
-RUN apt install -y postgresql
+# RUN apt-get install -y postgresql
 
 RUN pip3 install --upgrade pip
 
