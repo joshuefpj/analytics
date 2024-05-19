@@ -14,7 +14,19 @@ template_file = base_dir / 'data_collection' / 'template.html'
 images_dir = base_dir / 'statistic_images'
 
 
-def template_replace(details):
+def template_replace(details: dict) -> str:
+    """This function will replace each key with it's value within the
+    template html file.
+
+    Parameters
+    ----------
+        details:
+            The key-value map for each required value for the account.
+
+    Returns
+    -------
+        The formatted string message.
+    """
     template = template_file
 
     body = read_file(template, 1)
@@ -25,7 +37,19 @@ def template_replace(details):
     return body
 
 
-def get_months_details(months):
+def get_months_details(months: dict) -> str:
+    """A paragraph line per month included in the months.
+
+    Parameters
+    ----------
+        months:
+            This will use the number of the month as key and the amount
+            of transactions per month.
+
+    Returns
+    -------
+        A formatted string containing a message per month.
+    """
     base_p = '\n                <p>Number of transactions in {}: <b>{}</b></p>'
 
     months_paragraphs = ''
@@ -37,7 +61,19 @@ def get_months_details(months):
     return months_paragraphs
 
 
-def get_image(name):
+def get_image(name) -> bytes:
+    """Retrieves the bytes from the file with the image.
+
+    Parameters
+    ----------
+        name:
+            The name for the specific file, without extension(png by
+            default).
+
+    Returns
+    -------
+
+    """
     file = images_dir / f'{name}.png'
 
     if file.exists() and file.is_file():
@@ -46,10 +82,23 @@ def get_image(name):
 
         return data
 
-    return
+    return b''
 
 
 def send_email(account, receipt, details):
+    """Main function to send the formatted message to the receipt email.
+
+    Parameters
+    ----------
+        account:
+            The unique account identifier.
+
+        receipt:
+            The email address to sent the email.
+
+        details:
+            The key-value map containing the details account.
+    """
     sender_email = environ.get('sender_email', '13.phakman@gmail.com')
     i_key = environ.get('gmail_key', 'uandrpwyzzmwvelt')
     img_logo = get_image('stori_logo')

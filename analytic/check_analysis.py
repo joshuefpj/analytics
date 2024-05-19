@@ -15,6 +15,17 @@ data_dir = base_dir / 'data_collection'
 
 def get_plot(credit: pd.DataFrame, debit: pd.DataFrame, account: str) -> None:
     """Generate the plot for both, credit and debit.
+
+    Parameters
+    ----------
+        credit:
+            The table containing the credit transaction details.
+
+        debit:
+            The table containing the debit transaction details.
+
+        account:
+            The Unique account identifier.
     """
     filename = img_dir / f'{account}.png'
 
@@ -55,8 +66,13 @@ def get_plot(credit: pd.DataFrame, debit: pd.DataFrame, account: str) -> None:
     )
 
 
-def file_list():
-    """Retrieve files from `path_base` location modified within previous 24 hours."""
+def file_list() -> list[str]:
+    """Check for files in `path_base` location.
+
+    Returns
+    -------
+        Account for each valid file founded in `path_base` directory.
+    """
     path_base = str(data_dir)
     files_available = [f for f in listdir(path_base) if isfile(join(path_base, f))]
 
@@ -69,15 +85,50 @@ def file_list():
     return results
 
 
-def get_last_run(file_time):
+def get_yesterday_run(file_time: float) -> bool:
+    """Same as `get_last_run` but instead of checking for latest 30 mins,
+    this will check for the previous 24 hours.
+
+    Setting the specific time in order to don't miss any possible file.
+    """
     yesterday = datetime.now() - timedelta(1)
     yesterday = yesterday.replace(hour=9, minute=0, second=0, microsecond=0)
 
     return yesterday.timestamp() < file_time
 
 
+def get_last_run(file_time: float) -> bool:
+    """This is supposed to run every 30 mins. To avoid all the files gets
+    processed every time, we validate for those which were modified within
+    previous 30 mins.
+
+    Parameters
+    ----------
+        file_time:
+            The last modification time for the file.
+
+    Returns
+    -------
+        Return if the time match the modification rules.
+    """
+    previous_run = datetime.now().timestamp()
+    previous_run -= 1800
+
+    return previous_run.timestamp() < file_time
+
+
 def get_data(account_file: str) -> pd.DataFrame:
-    """Reads csv file bassed on user_id naming."""
+    """Reads csv file bassed on user_id naming.
+
+    Parameters
+    ----------
+        account_file:
+            Account unique identifier.
+
+    Returns
+    -------
+        The transaction table for the account.
+    """
     filename = data_dir / f'{account_file}.csv'
     data = pd.read_csv(str(filename))
 
@@ -85,7 +136,24 @@ def get_data(account_file: str) -> pd.DataFrame:
 
 
 def generate_details(raw_data: pd.DataFrame, account: str) -> dict:
-    """Create analysis for data."""
+    """Main function to generate analysis and retrieve details for particular
+    account.
+    This dataframe needs to contain below columns:
+        - transaction
+        - date
+
+    Parameters
+    ----------
+        raw_data:
+            Table with transactions details.
+
+        account:
+            The account identifier.
+
+    Returns
+    -------
+        A key-map structure with account information's details.
+    """
     total = raw_data['transaction'].sum()
     per_month = {}
     results = {}
