@@ -90,3 +90,15 @@ This 0.1.1 version adds SQLalchemy to communicate with database, adds functions 
 Database and table creation added into Dockerfile to be created once container is created.
 
 Adds scheduled cron to get python script run every 30 mins.
+
+### Version 0.1.5
+This 0.1.5 fix the image attachment on the email template.
+
+Adds logging messages for tracking purposes for each run.
+
+Both containers now are created with docker-compose, cron is added to crontab, is set to run every 30 mins.
+
+Main file is now working as expected, the validation for the file located is now finished and only process those files modified after the previous run.
+
+Accounts are now saved into database into `account_details`, validation to keep account unique.
+Transactions are added into `transactions_logging` table.
