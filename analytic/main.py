@@ -59,6 +59,6 @@ for acc in account_files[:1]:
         'last_name': l,
     }
     # Send email details.
-    receipt_email = environ.get('sender_email')
+    receipt_email = os.environ.get('sender_email')
     Logging(f'Send email for account: {acc}').info()
     send_email(acc, receipt_email, account_details)
