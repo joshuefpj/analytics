@@ -60,6 +60,8 @@ Now we can connect to the containers using below commands:
 
         $ docker container exec -it <container> /bin/bash
 
+The email will be send to the login email, if we want to modify this behavior update the receipt_email variable on `main.py` file for the receipt email.
+
 We have defined 4 cron in this container. 3 of them wll take care of the files clean up over below directories:
 
     - analytic/data_collection
